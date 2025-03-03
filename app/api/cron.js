@@ -1,6 +1,6 @@
 export default async function handler(req, res) {
     try {
-      const baseURL = "https://anime-trac.vercel.app/";
+      const baseURL = "https://anime-traca.vercel.app/";
   
       const response = await fetch(`${baseURL}/api/getCompletedAnime`, {
         method: "GET",
