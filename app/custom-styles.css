@@ -1,0 +1,24 @@
+.custom-table {
+  @apply w-full text-sm;
+}
+
+.custom-table thead tr {
+  @apply border-b border-gray-200;
+}
+
+.custom-table th {
+  @apply py-3 px-4 text-left font-semibold text-gray-600;
+}
+
+.custom-table td {
+  @apply py-3 px-4;
+}
+
+.custom-table tbody tr {
+  @apply border-b border-gray-100 hover:bg-gray-50 transition-colors;
+}
+
+.custom-table tbody tr:last-child {
+  @apply border-b-0;
+}
+
