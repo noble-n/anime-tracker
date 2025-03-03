@@ -38,10 +38,7 @@ const supabase = createClient(
   
   // Helper function to send an email via your existing API
   const sendCompletionEmail = async (to: string, animeTitle: string) => {
-    const host = window.location.hostname;
-    const protocol = window.location.protocol;
-    const port = window.location.port;
-    const baseURL = `${protocol}//${host}${port ? `:${port}` : ''}`;
+    const baseURL = "https://anime-trac.vercel.app/";
 
     try {
       const response = await fetch(`${baseURL}/api/sendMail`, {
