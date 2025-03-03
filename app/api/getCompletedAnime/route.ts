@@ -38,7 +38,7 @@ const supabase = createClient(
   
   // Helper function to send an email via your existing API
   const sendCompletionEmail = async (to: string, animeTitle: string) => {
-    const baseURL = "https://anime-traca.vercel.app/";
+    const baseURL = "https://anime-tracka.vercel.app/";
 
     try {
       const response = await fetch(`${baseURL}/api/sendMail`, {
