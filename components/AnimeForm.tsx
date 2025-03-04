@@ -15,6 +15,7 @@ type AnimeData = {
   episodes: number | string
   start_date: string
   estimated_end_date: string
+  error?: string
 }
 
 type AnimeFormProps = {
@@ -38,6 +39,20 @@ export default function AnimeForm({ onAnimeAdded }: AnimeFormProps) {
       // Fetch anime details
       const response = await axios.get(`/api/anime-end-date?anime=${encodeURIComponent(animeName)}`)
       const fetchedData: AnimeData = response.data
+      console.log("fetchData :", fetchedData)
+      // Check if anime has already ended
+
+      // Handle anime already ended (410 status)
+      if (response.status === 410) {
+        toast({
+          title: "Anime Not Available",
+          description: "This anime has already ended and cannot be tracked.",
+          variant: "destructive",
+        })
+        setIsLoading(false)
+        return
+      }
+
 
       // Get current user's ID from Supabase auth
       const { data: { user } } = await supabase.auth.getUser()
@@ -85,11 +100,22 @@ export default function AnimeForm({ onAnimeAdded }: AnimeFormProps) {
       // Clear input field
       setAnimeName("")
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to track anime. Please try again.",
-        variant: "destructive",
-      })
+      console.log("Error tracking anime:", error)
+      if (axios.isAxiosError(error) && error.response) {
+        toast({
+          title: "Error",
+          description: error.response.status === 410 
+            ? "This anime has already ended." 
+            : "Failed to fetch anime details.",
+          variant: "destructive",
+        })
+      } else {
+        toast({
+          title: "Error",
+          description: "An unknown error occurred.",
+          variant: "destructive",
+        })
+      }
       console.error("Error tracking anime:", error)
     } finally {
       setIsLoading(false)

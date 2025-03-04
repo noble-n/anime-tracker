@@ -1,68 +1,67 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+
+const animeIcons = [
+  { name: "Attack on Titan", path: "/Images/AOT.jpeg" },
+  { name: "Naruto", path: "/Images/Naruto.jpeg" },
+  { name: "Dragon Ball", path: "/Images/DragonBall.jpeg" },
+  { name: "One Piece", path: "/Images/OnePiece.jpeg" },
+  { name: "Bleach", path: "/Images/Bleach.jpeg" }
+];
 
 export default function Footer() {
-  const [animeList, setAnimeList] = useState([]);
-
-  const fetchAnime = async () => {
-    try {
-      const res = await fetch("/api/getTrackedAnime");
-      const data = await res.json();
-      console.log("Fetched Anime:", data);
-      setAnimeList(data);
-    } catch (error) {
-      console.error("Failed to fetch anime:", error);
-    }
-  };
-
-  const sendEmail = async () => {
-    try {
-      const response = await fetch("/api/sendMail", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          to: "nwabuikenoble@gmail.com",
-          subject: "Test Email",
-          text: "Hello, this is a test email!",
-        }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        alert("Email sent successfully!");
-      } else {
-        alert("Failed to send email: " + data.error);
-      }
-    } catch (error) {
-      console.error("Error sending email:", error);
-      alert("Something went wrong.");
-    }
-  };
-
   return (
     <footer className="border-t bg-white/50 backdrop-blur-sm">
       <div className="container mx-auto px-4 py-12 relative">
         {/* Floating Icons */}
-        <div className="floating-icon" style={{ top: "-60px", left: "10%", animationDelay: "0s" }}>
-          <Image src="/Images/AOT.jpeg" alt="Anime icon" width={40} height={40} className="rounded-lg" />
+        <div className="relative w-full h-40 overflow-hidden flex justify-center">
+          {animeIcons.map((icon, index) => (
+            <div 
+              key={icon.name}
+              className="absolute animate-float rounded-lg shadow-lg transform hover:scale-110 transition-transform duration-300 flex items-center justify-center"
+              style={{
+                top: `20px`,
+                left: `calc(50% + ${(index - (animeIcons.length - 1) / 2) * 20}%)`,
+                animationDelay: `${index * 0.8}s`,
+                width: "70px",
+                height: "70px",
+                padding: "5px"
+              }}
+            >
+              <Image 
+                src={icon.path} 
+                alt={`${icon.name} icon`} 
+                width={55} 
+                height={55} 
+                className="rounded-lg object-contain"
+              />
+            </div>
+          ))}
         </div>
-        <div className="floating-icon" style={{ top: "-40px", left: "30%", animationDelay: "1s" }}>
-          <Image src="/Images/Naruto.jpeg" alt="Anime icon" width={40} height={40} className="rounded-lg" />
-        </div>
-        <div className="floating-icon" style={{ top: "-80px", left: "50%", animationDelay: "2s" }}>
-          <Image src="/Images/DragonBall.jpeg" alt="Anime icon" width={40} height={40} className="rounded-lg" />
-        </div>
-        <div className="floating-icon" style={{ top: "-30px", left: "70%", animationDelay: "3s" }}>
-          <Image src="/Images/OnePiece.jpeg" alt="Anime icon" width={40} height={40} className="rounded-lg" />
-        </div>
-        <div className="floating-icon" style={{ top: "-50px", left: "90%", animationDelay: "4s" }}>
-          <Image src="/Images/Bleach.jpeg" alt="Anime icon" width={40} height={40} className="rounded-lg" />
-        </div>
+        
+        <style jsx>{`
+          @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+          }
+          
+          .animate-float {
+            animation: float 3s ease-in-out infinite;
+          }
+          
+          @media (max-width: 640px) {
+            .relative {
+              height: 80px;
+            }
+            
+            img {
+              width: 45px;
+              height: 45px;
+            }
+          }
+        `}</style>
 
         {/* Footer Content */}
         <div className="grid md:grid-cols-2 gap-8 pt-8">

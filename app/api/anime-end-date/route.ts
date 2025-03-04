@@ -21,6 +21,14 @@ export async function GET(request: Request) {
 
     const anime = searchResponse.data.data[0]
 
+
+    const endDate = anime.aired.to ? moment(anime.aired.to) : null
+    const today = moment().startOf("day")
+
+    if (endDate && endDate.isSameOrBefore(today)) {
+      return NextResponse.json({ error: "Anime already ended" }, { status: 410 })
+    }
+
     const startDate = anime.aired.from ? moment(anime.aired.from) : null
     const episodes = anime.episodes || 12
     const isOngoing = !anime.aired.to
