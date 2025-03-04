@@ -4,6 +4,7 @@ import "./custom-styles.css"
 import type { Metadata } from "next"
 import { Outfit } from "next/font/google"
 import { Toaster } from "@/components/ui/toaster"
+import { Analytics } from "@vercel/analytics/react"
 
 const outfit = Outfit({ subsets: ["latin"] })
 
@@ -21,8 +22,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={outfit.className}>
-      uihihi   {children}
+         {children}
          <Toaster />
+         <Analytics />
         </body>
     </html>
   )
