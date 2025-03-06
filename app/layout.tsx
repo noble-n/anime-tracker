@@ -12,7 +12,10 @@ export const metadata: Metadata = {
   title: "AnimeTrack - Track Your Favorite Anime Series",
   description: "Keep track of your favorite anime shows and get notified when they finish airing",
   icons: "/favicon.ico",
-}
+  other: {
+    "google-site-verification": "t7eJ29ybqdoAWz2BAvwL4IoV5JgLBZqB164lqSzJuc4",
+  },
+};
 
 export default function RootLayout({
   children,
